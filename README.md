@@ -1,16 +1,37 @@
-# flutter_application_1
+Frontend (Flutter)
+#Frontend Requirements
+  Flutter SDK (3.10.0)
+  VS Code
+  Dart
+  real device
 
-A new Flutter project.
+Setup Instructions
+Clone the repository:
 
-## Getting Started
+git clone <repository_url>
+cd <project_folder>
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+Install dependencies:
+flutter pub get
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Run the app on an emulator or device:
+flutter run
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+Configure API IP:
+Tap the settings icon in the AppBar.
+Enter the backend IP (e.g., 192.168.1.10:3000) for testing.
+
+Key Features
+Product Management
+Add, list, search, and validate products.
+Cart System
+
+
+Bill Generation
+Generate bills, view bill history.
+
+
+API Configuration
+Dynamically change backend IP without recompiling.
