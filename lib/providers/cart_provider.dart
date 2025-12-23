@@ -35,7 +35,7 @@ class CartProvider extends ChangeNotifier {
 
   double get grandTotal => subtotal + tax;
 
-  Future<Map<String, dynamic>> checkout() async {
+  Future<Map<String, dynamic>> checkout(url) async {
     final items = cart.entries.map((e) {
       return {
         "productId": e.key.id,
@@ -46,7 +46,7 @@ class CartProvider extends ChangeNotifier {
     }).toList();
 
     final res = await http.post(
-      Uri.parse("http://192.168.5.24:3000/api/bills"),
+      Uri.parse("$url/bills"),
       headers: {"Content-Type": "application/json"},
       body: json.encode({"items": items}),
     );

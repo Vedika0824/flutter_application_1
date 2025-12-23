@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/providers/api_conf.dart';
 import 'package:provider/provider.dart';
 import '../providers/product_provider.dart';
 import '../providers/cart_provider.dart';
@@ -21,7 +22,9 @@ class _ProductScreenState extends State<ProductScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<ProductProvider>().fetchProducts();
+    Future.microtask(() {
+      context.read<ProductProvider>().fetchProducts(context);
+    });
   }
 
   @override
@@ -48,16 +51,23 @@ class _ProductScreenState extends State<ProductScreen> {
         backgroundColor: const Color.fromARGB(255, 32, 56, 78),
         iconTheme: const IconThemeData(color: Colors.white),
         
-        actions: [
-          Center(
-            child: Padding(
-              padding: const EdgeInsets.only(right: 8),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.settings, color: Colors.white),
+              tooltip: "API Settings",
+              onPressed: () => _showIpDialog(context),
+            ),
+          
+          Padding(
+            padding: const EdgeInsets.only(right: 12),
+            child: Center(
               child: Text(
                 "Items: ${cart.length}",
-                style: const TextStyle(fontWeight: FontWeight.bold,color: Colors.white,)
+                style: const TextStyle(color: Colors.white),
               ),
             ),
           ),
+
         ],
       ),
       body: Column(
@@ -122,7 +132,11 @@ class _ProductScreenState extends State<ProductScreen> {
                       return;
                     }
 
-                    context.read<ProductProvider>().addProduct(name, price);
+                    context.read<ProductProvider>().addProduct(
+                      context,
+                      name,
+                      price,
+                    );
                     _showMessage(context, "$name added successfully");
 
                     nameCtrl.clear();
@@ -189,8 +203,8 @@ class _ProductScreenState extends State<ProductScreen> {
                           ),
                           onTap: () {
                             context.read<CartProvider>().add(product);
-                            _showMessage(context,
-                                "${product.name} added to cart");
+                            // _showMessage(context,
+                            //     "${product.name} added to cart");
                           },
                         ),
                       );
@@ -249,6 +263,40 @@ class _ProductScreenState extends State<ProductScreen> {
       SnackBar(
         content: Text(msg),
         duration: const Duration(milliseconds: 1000),
+      ),
+    );
+  }
+
+   // ✅ THIS WAS MISSING — NOW ADDED
+  void _showIpDialog(BuildContext context) {
+    final ctrl = TextEditingController(
+      text: context.read<ApiConfigProvider>().ip,
+    );
+
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text("Set API IP"),
+        content: TextField(
+          controller: ctrl,
+          decoration: const InputDecoration(hintText: ""),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text("Cancel"),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              context
+                  .read<ApiConfigProvider>()
+                  .updateIp(ctrl.text.trim());
+              context.read<ProductProvider>().fetchProducts(context);
+              Navigator.pop(context);
+            },
+            child: const Text("Save"),
+          ),
+        ],
       ),
     );
   }

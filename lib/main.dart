@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/providers/api_conf.dart';
 import 'package:flutter_application_1/providers/bill_provider.dart';
 import 'package:provider/provider.dart';
 import 'providers/product_provider.dart';
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ProductProvider()),
         ChangeNotifierProvider(create: (_) => CartProvider()),
         ChangeNotifierProvider(create: (_) => BillProvider()),
+        ChangeNotifierProvider(create: (_) => ApiConfigProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/providers/api_conf.dart';
 import 'package:flutter_application_1/screens/product_screen.dart';
 import 'package:provider/provider.dart';
 import '../providers/bill_provider.dart';
@@ -16,7 +17,8 @@ class _BillsListScreenState extends State<BillsListScreen> {
   void initState() {
     super.initState();
     Future.microtask(() {
-      context.read<BillProvider>().fetchBills();
+      final api = context.read<ApiConfigProvider>();
+      context.read<BillProvider>().fetchBills(api.baseUrl);
     });
   }
 

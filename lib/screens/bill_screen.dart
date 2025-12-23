@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/providers/api_conf.dart';
 import 'package:flutter_application_1/screens/product_screen.dart';
 import 'package:provider/provider.dart';
 import '../providers/cart_provider.dart';
@@ -139,8 +140,9 @@ class BillScreen extends StatelessWidget {
 
                             if (confirmed != true) return;
 
-                            try {
-                              final bill = await context.read<CartProvider>().checkout();
+                            try { 
+                              final api = context.read<ApiConfigProvider>();
+                              final bill = await context.read<CartProvider>().checkout(api.baseUrl);
 
                               Navigator.push(
                                 context,
